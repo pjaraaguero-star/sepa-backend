@@ -41,7 +41,27 @@ const OperacionSchema = new mongoose.Schema({
 });
 
 const Operacion = mongoose.model('Operacion', OperacionSchema);
+// ==========================================
+// RUTAS DE AUTENTICACIÓN (LOGIN)
+// ==========================================
+app.post('/api/v1/auth/login', (req, res) => {
+    const { username, password } = req.body;
 
+    // Usuarios configurados en el servidor (puedes cambiar las contraseñas)
+    if (username === 'admin' && password === 'sepa2026') {
+        return res.json({
+            success: true,
+            data: { name: 'Administrador Central', role: 'admin', token: 'admin-token-123' }
+        });
+    } else if (username === 'visita' && password === 'visita2026') {
+        return res.json({
+            success: true,
+            data: { name: 'Usuario Visita', role: 'viewer', token: 'viewer-token-123' }
+        });
+    } else {
+        return res.status(401).json({ success: false, error: 'Credenciales inválidas' });
+    }
+});
 // ==========================================
 // RUTAS DE LA API REST
 // ==========================================
